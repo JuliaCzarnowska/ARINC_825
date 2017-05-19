@@ -2,6 +2,7 @@
 #define TRANSMITBOX_H
 
 #include <QWidget>
+#include <arinc_msg_composer.h>
 
 namespace Ui {
 class TransmitBox;
@@ -17,6 +18,7 @@ public:
 
 private:
     Ui::TransmitBox *ui;
+    ARINC_MSG_composer* comp1;
 };
 
 #endif // TRANSMITBOX_H

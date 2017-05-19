@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <serialconfigbox.h>
 #include <receivebox.h>
+#include <transmitbox.h>
 #include <socket.h>
 
 namespace Ui {
@@ -26,6 +27,7 @@ private:
     Socket *socket;
     SerialConfigBox *serialCfg;
     ReceiveBox *receiveBox;
+    TransmitBox *transmitBox;
 };
 
 #endif // MAINWINDOW_H

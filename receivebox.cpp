@@ -10,6 +10,9 @@ ReceiveBox::ReceiveBox(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->receiveTable->setColumnWidth(PARAMETER, 100);
+    ui->receiveTable->setColumnWidth(LCC, 60);
+    ui->receiveTable->setColumnWidth(UNIT, 60);
+    ui->receiveTable->horizontalHeader()->sectionResizeMode(QHeaderView::Stretch);
     connect(ui->clearButton, SIGNAL(clicked(bool)), this, SLOT(clearTable()));
 }
 

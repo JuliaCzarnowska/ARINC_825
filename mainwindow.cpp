@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 #include <QGridLayout>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -14,12 +13,15 @@ MainWindow::MainWindow(QWidget *parent) :
     //creating widgets
     serialCfg = new SerialConfigBox(this);
     receiveBox = new ReceiveBox(this);
+    transmitBox = new TransmitBox(this);
 
     //building ui
     QGridLayout *mainLayout = new QGridLayout;
     ui->centralWidget->setLayout(mainLayout);
+    mainLayout->setSpacing(10);
     mainLayout->addWidget(serialCfg,0,0,-1,1);
-    mainLayout->addWidget(receiveBox, 1, 1, 1, 1);
+    mainLayout->addWidget(receiveBox, 1, 1, 1,-1);
+    mainLayout->addWidget(transmitBox, 0, 1, 1, -1);
 
     connect(serialCfg, SIGNAL(applySerial(SerialConfigBox::SerialSettings)),
             socket, SLOT(openSerialPort(SerialConfigBox::SerialSettings)));

@@ -6,6 +6,8 @@ TransmitBox::TransmitBox(QWidget *parent) :
     ui(new Ui::TransmitBox)
 {
     ui->setupUi(this);
+    comp1 = new ARINC_MSG_composer(this);
+    ui->transmitLayout->addWidget(comp1);
 }
 
 TransmitBox::~TransmitBox()
