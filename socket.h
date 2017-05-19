@@ -3,13 +3,16 @@
 
 #include "a825.h"
 #include "serialconfigbox.h"
+#include "profile.h"
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include <QObject>
+#include <QMap>
+#include <QByteArray>
 
 #define RX_BUFFSIZE             30
 #define TX_BUFFSIZE             64
-#define MAX_PKT_SIZE            20
+#define PKT_SIZE                15
 #define MAX_CTRL_PKT_SIZE       2
 //#define MAX_ARINC_MSG_COUNT     50
 
@@ -72,15 +75,19 @@ typedef struct
 
 } CAN_MSG;
 
+static QMap<int, QString> lccMap{{2, "NOC"},
+                              {4, "NSC"}};
+
 class Socket : public QObject
 {
     Q_OBJECT
 
 private:
     QSerialPort *serial;
+    QByteArray serialBuffer;
     SerialConfigBox::SerialSettings currentSettings;
-    CAN_MSG *rx_can;     //CAN receive buffer pointer
-    CAN_MSG *tx_can;     //CAN transmit buffer pointer
+    CAN_MSG *rxCan;     //CAN receive buffer pointer
+    CAN_MSG *txCan;     //CAN transmit buffer pointer
 
     int rx_write_index;
     int rx_read_index;
@@ -97,12 +104,13 @@ signals:
 public slots:
     void openSerialPort(SerialConfigBox::SerialSettings settings);
     void closeSerialPort();
-//    void startListening(A825_MSG* msg);
-    void startListening();
+    void handleReadyRead();
     void readyToReceive();
 
 public:
+    Profile * myProfile;
     Socket();
+    ~Socket();
 
 };
 

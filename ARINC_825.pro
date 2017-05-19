@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     receivebox.cpp \
     arinc_msg_composer.cpp \
     transmitbox.cpp \
-    socket.cpp
+    socket.cpp \
+    profile.cpp
 
 HEADERS  += mainwindow.h \
     a825.h \
@@ -38,7 +39,8 @@ HEADERS  += mainwindow.h \
     receivebox.h \
     arinc_msg_composer.h \
     transmitbox.h \
-    socket.h
+    socket.h \
+    profile.h
 
 FORMS    += mainwindow.ui \
     serialconfigbox.ui \

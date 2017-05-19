@@ -32,5 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete socket;
+    delete serialCfg;
+    delete receiveBox;
     delete ui;
 }

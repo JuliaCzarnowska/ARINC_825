@@ -19,6 +19,7 @@ public:
 
 public slots:
     void displayMessage(A825_MSG* msg);
+    void clearTable();
 
 private:
     Ui::ReceiveBox *ui;
@@ -29,6 +30,7 @@ private:
     {
         LCC,
         FID,
+        FSB,
         DOC,
         LCL,
         PVT,

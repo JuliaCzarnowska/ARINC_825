@@ -6,11 +6,18 @@ Socket::Socket()
 {
     rx_write_index = 0;
     rx_read_index = 0;
-    rx_can = new CAN_MSG[RX_BUFFSIZE];
-    tx_can = new CAN_MSG[TX_BUFFSIZE];
+    rxCan = new CAN_MSG[RX_BUFFSIZE];
+    txCan = new CAN_MSG[TX_BUFFSIZE];
     serial = new QSerialPort();
-    connect(serial, &QSerialPort::readyRead, this, startListening);
+    myProfile = new Profile();
+    connect(serial, &QSerialPort::readyRead, this, handleReadyRead);
 
+}
+
+Socket::~Socket()
+{
+    delete serial;
+    delete myProfile;
 }
 
 //SERIAL PORT CONNECTION FUNCTIONS
@@ -39,43 +46,39 @@ void Socket::closeSerialPort()
     emit serialConnectionState(false);
 }
 
-// function reads all available bytes from serial port and puts raw messages in rx_can buffer
+// function reads all available bytes from serial port and puts raw messages in rxCan buffer
 int Socket::readRawMessage(CAN_MSG *msg)
 {
-    static char rx_buf[MAX_PKT_SIZE];
-    static CAN_MSG tmp_msg;
     unsigned int id[4];
     int resp, count;
-    int bytes = serial->read((char*) &rx_buf, MAX_PKT_SIZE);
 
-    while(bytes > 0)
+    while(serialBuffer.size() >= PKT_SIZE)
     {
-        count = rx_buf[0];
-        tmp_msg.byte_count = count;
-        if(rx_buf[9] == 1)
-            qDebug() << "lalalala";
+        CAN_MSG* tmpMsg = new CAN_MSG;
+        count = serialBuffer[0];
+        tmpMsg->byte_count = count;
         for(int i = 0; i < count; i++){
-            tmp_msg.data[i] = rx_buf[i+1];
+            tmpMsg->data[i] = serialBuffer[i+1];
         }
-        tmp_msg.frame_type = rx_buf[1+count];
-        id[0] = (unsigned int) ((rx_buf[2+count] << 24) & 0x1F000000);
-        id[1] = (unsigned int) ((rx_buf[3+count] << 16) & 0xFF0000);
-        id[2] = (unsigned int) ((rx_buf[4+count] << 8) & 0xFF00);
-        id[3] = (unsigned int) (rx_buf[2+count] & 0xFF);
-        tmp_msg.identifier = id[0]|id[1]|id[2]|id[3];
-        //inserting received message into rx_can circullar buffer
-        rx_can[rx_write_index] = tmp_msg;
+        tmpMsg->frame_type = serialBuffer[1+count];
+        id[0] = (unsigned int) ((serialBuffer[2+count] << 24) & 0x1F000000);
+        id[1] = (unsigned int) ((serialBuffer[3+count] << 16) & 0xFF0000);
+        id[2] = (unsigned int) ((serialBuffer[4+count] << 8) & 0xFF00);
+        id[3] = (unsigned int) (serialBuffer[5+count] & 0xFF);
+        tmpMsg->identifier = id[0]|id[1]|id[2]|id[3];
+        //TODO check if its a proper message
+        serialBuffer.remove(0,15);
+        //inserting received message into rxCan circullar buffer
+        rxCan[rx_write_index] = *tmpMsg;
         if(rx_write_index >= (RX_BUFFSIZE - 1))
             rx_write_index = 0;
         else
             rx_write_index += 1;
-        //checking for another message
-        bytes = serial->read((char*) &rx_buf, MAX_PKT_SIZE);
     }
 
-// returning next RAW message from rx_can
+// returning next RAW message from rxCan
     if(rx_write_index != rx_read_index){
-        *msg = rx_can[rx_read_index];
+        *msg = rxCan[rx_read_index];
         if(rx_read_index >= (RX_BUFFSIZE -1))
             rx_read_index = 0;
         else
@@ -90,21 +93,17 @@ int Socket::readRawMessage(CAN_MSG *msg)
 // function returns next ARINC 825 message
 int Socket::readA825Message(A825_MSG* msg)
 {
-    CAN_MSG raw;
+    CAN_MSG *raw = new CAN_MSG;
     int resp, i;
-    unsigned char *raw_ptr, *out_ptr;
 
-    // getting next RAW CAN Message from rx_can buffer
-    resp = readRawMessage((CAN_MSG *) &raw);
+    // getting next RAW CAN Message from rxCan buffer
+    resp = readRawMessage(raw);
 
     if(resp == OK){
-        raw_ptr = (unsigned char *) &(raw.data[0]);
-        out_ptr = (unsigned char *) &(msg->data[0]);
+        for(i = 0; i < raw->byte_count; i++)
+            msg->data[i] = raw->data[i];
 
-        for(i = 0; i < raw.byte_count; i++)
-            out_ptr[i] = raw_ptr[i];
-
-        decodeA825Identifier((CAN_ID) raw.identifier, &(msg->identifier));
+        decodeA825Identifier((CAN_ID) raw->identifier, &(msg->identifier));
     }
     return resp;
 }
@@ -133,18 +132,23 @@ void Socket::sendControlMessage(unsigned char command)
     int resp = serial->write(data, MAX_CTRL_PKT_SIZE);
     if(resp == -1)
         qDebug() << "lipa";
+    delete ctrlMsg;
 }
 
-void Socket::startListening()
+void Socket::handleReadyRead()
 {
-    A825_MSG* msg;
-    int resp;
-
-    resp = readA825Message(msg);
-    while(resp != NO_NEW_MSG)
+    serialBuffer.append(serial->readAll());
+    int resp = serialBuffer.size();
+    while(serialBuffer.size() >= PKT_SIZE)
     {
-        emit messageToDisplay(msg);
+        A825_MSG* msg = new A825_MSG();
         resp = readA825Message(msg);
+        while(resp != NO_NEW_MSG)
+        {
+            qDebug() << "nowa wiadomość!!";
+            emit messageToDisplay(msg);
+            resp = readA825Message(msg);
+        }
     }
 }
 
