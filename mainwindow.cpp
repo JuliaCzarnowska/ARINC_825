@@ -14,6 +14,10 @@ MainWindow::MainWindow(QWidget *parent) :
     serialCfg = new SerialConfigBox(this);
     receiveBox = new ReceiveBox(this);
     transmitBox = new TransmitBox(this);
+    profile = new Profile();
+    profile->loadProfile();
+    receiveBox->setProfile(profile);
+    transmitBox->setProfile(profile);
 
     //building ui
     QGridLayout *mainLayout = new QGridLayout;

@@ -24,3 +24,11 @@ void ARINC_MSG_composer::setArincMsg(A825_MSG* msg)
 {
 
 }
+
+void ARINC_MSG_composer::fillParameters(Profile* profile)
+{
+    for(auto iter = profile->lccMap.begin(); iter != profile->lccMap.end(); iter++)
+    {
+
+    }
+}

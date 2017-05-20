@@ -9,7 +9,6 @@ Socket::Socket()
     rxCan = new CAN_MSG[RX_BUFFSIZE];
     txCan = new CAN_MSG[TX_BUFFSIZE];
     serial = new QSerialPort();
-    myProfile = new Profile();
     connect(serial, &QSerialPort::readyRead, this, handleReadyRead);
 
 }
@@ -17,7 +16,6 @@ Socket::Socket()
 Socket::~Socket()
 {
     delete serial;
-    delete myProfile;
 }
 
 //SERIAL PORT CONNECTION FUNCTIONS

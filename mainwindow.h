@@ -6,6 +6,7 @@
 #include <receivebox.h>
 #include <transmitbox.h>
 #include <socket.h>
+#include <profile.h>
 
 namespace Ui {
 class MainWindow;
@@ -28,6 +29,7 @@ private:
     SerialConfigBox *serialCfg;
     ReceiveBox *receiveBox;
     TransmitBox *transmitBox;
+    Profile *profile;
 };
 
 #endif // MAINWINDOW_H

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <arinc_msg_composer.h>
+#include <profile.h>
 
 namespace Ui {
 class TransmitBox;
@@ -16,8 +17,11 @@ public:
     explicit TransmitBox(QWidget *parent = 0);
     ~TransmitBox();
 
+    void setProfile(Profile * p);
+
 private:
     Ui::TransmitBox *ui;
+    Profile* profile;
     ARINC_MSG_composer* comp1;
 };
 

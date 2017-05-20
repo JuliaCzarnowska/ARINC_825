@@ -108,7 +108,6 @@ public slots:
     void readyToReceive();
 
 public:
-    Profile * myProfile;
     Socket();
     ~Socket();
 
