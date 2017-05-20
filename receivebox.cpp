@@ -23,7 +23,7 @@ ReceiveBox::~ReceiveBox()
 
 void ReceiveBox::displayMessage(A825_MSG* msg)
 {
-    QTableWidgetItem * lcc = new QTableWidgetItem(lccMap[msg->identifier.lcc]);
+    QTableWidgetItem * lcc = new QTableWidgetItem(profile->lccMap[msg->identifier.lcc]);
     QTableWidgetItem * fid = new QTableWidgetItem(QString::number(msg->identifier.srcfid));
     QTableWidgetItem * fsb = new QTableWidgetItem(QString::number(msg->identifier.fsb));
     QTableWidgetItem * lcl = new QTableWidgetItem(QString::number(msg->identifier.lcl));
@@ -50,4 +50,9 @@ void ReceiveBox::clearTable()
     {
         ui->receiveTable->removeRow(0);
     }
+}
+
+void ReceiveBox::setProfile(Profile *p)
+{
+    profile = p;
 }

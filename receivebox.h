@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QBitArray>
 #include <socket.h>
+#include <profile.h>
+
 
 namespace Ui {
 class ReceiveBox;
@@ -17,13 +19,15 @@ public:
     explicit ReceiveBox(QWidget *parent = 0);
     ~ReceiveBox();
 
+    void setProfile(Profile * p);
+
 public slots:
     void displayMessage(A825_MSG* msg);
     void clearTable();
 
 private:
     Ui::ReceiveBox *ui;
-    QString rxData;
+    Profile* profile;
     int count = 0;
 
     enum ReceiveTableHeaders
@@ -39,8 +43,6 @@ private:
         VALUE,
         UNIT
     };
-
-public:
 
 };
 

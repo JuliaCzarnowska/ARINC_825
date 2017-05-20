@@ -12,3 +12,11 @@ ARINC_MSG_composer::~ARINC_MSG_composer()
 {
     delete ui;
 }
+
+void ARINC_MSG_composer::fillParameters(Profile* profile)
+{
+    for(auto iter = profile->lccMap.begin(); iter != profile->lccMap.end(); iter++)
+    {
+
+    }
+}

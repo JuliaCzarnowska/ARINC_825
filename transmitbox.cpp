@@ -14,3 +14,8 @@ TransmitBox::~TransmitBox()
 {
     delete ui;
 }
+
+void TransmitBox::setProfile(Profile *p)
+{
+    profile = p;
+}

@@ -47,3 +47,6 @@ FORMS    += mainwindow.ui \
     receivebox.ui \
     arinc_msg_composer.ui \
     transmitbox.ui
+
+DISTFILES += \
+    profile.json

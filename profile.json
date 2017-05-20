@@ -1,0 +1,21 @@
+{
+	"lcc_list": [
+		{ "number": 0, "channel": "EEC" },
+		{ "number": 2, "channel": "NOC" },
+		{ "number": 3, "channel": "DMC" },
+		{ "number": 4, "channel": "NSC" },
+		{ "number": 5, "channel": "UDC" },
+		{ "number": 6, "channel": "TMC" },
+		{ "number": 7, "channel": "FMC" }
+	],
+	"fid_list": [
+		{
+			"name": "Flight State",
+			"code": 4,
+			"params": [
+				{ "name": "Body Pitch Rate", "doc": 88, "data_type": "float", "unit": "rad/s"},
+				{ "name": "Body Lateral Velocity", "doc": 152, "data_type": "float", "unit": "rad"}
+			]
+		}
+	]
+}
