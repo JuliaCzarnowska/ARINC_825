@@ -12,7 +12,7 @@ void Profile::loadProfile()
     }
     QByteArray saveData = loadFile.readAll();
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
-    QJsonObject asdf = loadDoc.object();
+    QJsonObject asd = loadDoc.object();
     read(loadDoc.object());
 }
 

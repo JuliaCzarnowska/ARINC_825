@@ -16,6 +16,15 @@
 				{ "name": "Body Pitch Rate", "doc": 88, "data_type": "float", "unit": "rad/s"},
 				{ "name": "Body Lateral Velocity", "doc": 152, "data_type": "float", "unit": "rad"}
 			]
+		},
+		{
+			"name": "Air Data",
+			"code": 52,
+			"params": [
+				{ "name": "Calibrated Airspeed", "doc": 88, "data_type": "float", "unit": "m/s"},
+				{ "name": "Angle of attack", "doc": 184, "data_type": "float", "unit": "rad"},
+				{ "name": "Total Air Temperature", "doc": 216, "data_type": "float", "unit": "K"}
+			]
 		}
 	]
 }

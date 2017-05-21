@@ -16,7 +16,7 @@ struct Parameter{
 
     void read(const QJsonObject &json){
         name = json["name"].toString();
-        code = json["code"].toInt();
+        code = json["doc"].toInt();
         dataType = json["data_type"].toString();
         unit = json["unit"].toString();
     }

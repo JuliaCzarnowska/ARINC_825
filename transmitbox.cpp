@@ -6,8 +6,10 @@ TransmitBox::TransmitBox(QWidget *parent) :
     ui(new Ui::TransmitBox)
 {
     ui->setupUi(this);
-    comp1 = new ARINC_MSG_composer(this);
+    comp1 = new OTM_MsgComposer(this);
+    comp2 = new PTP_MsgComposer(this);
     ui->transmitLayout->addWidget(comp1);
+    ui->transmitLayout->addWidget(comp2);
 }
 
 TransmitBox::~TransmitBox()
@@ -18,4 +20,5 @@ TransmitBox::~TransmitBox()
 void TransmitBox::setProfile(Profile *p)
 {
     profile = p;
+    comp1->fillParameters(p);
 }

@@ -2,7 +2,8 @@
 #define TRANSMITBOX_H
 
 #include <QWidget>
-#include <arinc_msg_composer.h>
+#include <otm_msgcomposer.h>
+#include <ptp_msgcomposer.h>
 #include <profile.h>
 
 namespace Ui {
@@ -22,7 +23,8 @@ public:
 private:
     Ui::TransmitBox *ui;
     Profile* profile;
-    ARINC_MSG_composer* comp1;
+    OTM_MsgComposer* comp1;
+    PTP_MsgComposer* comp2;
 };
 
 #endif // TRANSMITBOX_H

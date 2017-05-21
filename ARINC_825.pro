@@ -28,25 +28,28 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     serialconfigbox.cpp \
     receivebox.cpp \
-    arinc_msg_composer.cpp \
     transmitbox.cpp \
     socket.cpp \
-    profile.cpp
+    profile.cpp \
+    otm_msgcomposer.cpp \
+    ptp_msgcomposer.cpp
 
 HEADERS  += mainwindow.h \
     a825.h \
     serialconfigbox.h \
     receivebox.h \
-    arinc_msg_composer.h \
     transmitbox.h \
     socket.h \
-    profile.h
+    profile.h \
+    otm_msgcomposer.h \
+    ptp_msgcomposer.h
 
 FORMS    += mainwindow.ui \
     serialconfigbox.ui \
     receivebox.ui \
-    arinc_msg_composer.ui \
-    transmitbox.ui
+    transmitbox.ui \
+    otm_msgcomposer.ui \
+    ptp_msgcomposer.ui
 
 DISTFILES += \
     profile.json
