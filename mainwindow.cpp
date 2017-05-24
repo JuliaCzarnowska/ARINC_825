@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(socket, SIGNAL(messageToDisplay(A825_MSG*)),
             receiveBox, SLOT(displayMessage(A825_MSG*)));
     connect(transmitBox, SIGNAL(messageToSend(A825_MSG*)),
-            socket, SLOT(messageToSendHandle(A825_MSG*)));
+            socket, SLOT(writeA825Message(A825_MSG*)));
 }
 
 MainWindow::~MainWindow()

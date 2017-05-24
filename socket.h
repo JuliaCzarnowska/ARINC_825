@@ -31,7 +31,6 @@
 // frame types
 #define DATA_FRAME      1
 #define REMOTE_FRAME    2
-
 typedef unsigned int CAN_ID;
 
 // ARINC 825 message structure
