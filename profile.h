@@ -51,6 +51,7 @@ public:
     int profileSubID;
     int LRUCode;
     int fid;
+    QMap<unsigned int, QString> rciMap;
     QMap<unsigned int, QString> lccMap;
     QMap<unsigned int, FidObject> fidMap;
 

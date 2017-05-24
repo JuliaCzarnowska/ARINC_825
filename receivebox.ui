@@ -125,6 +125,14 @@
         </column>
         <column>
          <property name="text">
+          <string>DOC</string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignCenter</set>
+         </property>
+        </column>
+        <column>
+         <property name="text">
           <string>FSB</string>
          </property>
          <property name="textAlignment">
@@ -133,37 +141,50 @@
         </column>
         <column>
          <property name="text">
-          <string>DOC</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
           <string>LCL</string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignCenter</set>
          </property>
         </column>
         <column>
          <property name="text">
           <string>PVT</string>
          </property>
+         <property name="textAlignment">
+          <set>AlignCenter</set>
+         </property>
         </column>
         <column>
          <property name="text">
           <string>RCI</string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignCenter</set>
          </property>
         </column>
         <column>
          <property name="text">
           <string>Parameter</string>
          </property>
+         <property name="textAlignment">
+          <set>AlignCenter</set>
+         </property>
         </column>
         <column>
          <property name="text">
           <string>Value</string>
          </property>
+         <property name="textAlignment">
+          <set>AlignCenter</set>
+         </property>
         </column>
         <column>
          <property name="text">
           <string>Unit</string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignCenter</set>
          </property>
         </column>
        </widget>

@@ -9,9 +9,7 @@ ReceiveBox::ReceiveBox(QWidget *parent) :
     ui(new Ui::ReceiveBox)
 {
     ui->setupUi(this);
-    ui->receiveTable->setColumnWidth(PARAMETER, 100);
-    ui->receiveTable->setColumnWidth(LCC, 60);
-    ui->receiveTable->setColumnWidth(UNIT, 60);
+    setColumnWidths();
     ui->receiveTable->horizontalHeader()->sectionResizeMode(QHeaderView::Stretch);
     connect(ui->clearButton, SIGNAL(clicked(bool)), this, SLOT(clearTable()));
 }
@@ -24,13 +22,18 @@ ReceiveBox::~ReceiveBox()
 void ReceiveBox::displayMessage(A825_MSG* msg)
 {
     QTableWidgetItem * lcc = new QTableWidgetItem(profile->lccMap[msg->identifier.lcc]);
-    QTableWidgetItem * fid = new QTableWidgetItem(QString::number(msg->identifier.srcfid));
+    QTableWidgetItem * fid = new QTableWidgetItem(profile->fidMap[msg->identifier.srcfid].name);
     QTableWidgetItem * fsb = new QTableWidgetItem(QString::number(msg->identifier.fsb));
     QTableWidgetItem * lcl = new QTableWidgetItem(QString::number(msg->identifier.lcl));
     QTableWidgetItem * pvt = new QTableWidgetItem(QString::number(msg->identifier.pvt));
     QTableWidgetItem * doc = new QTableWidgetItem(QString::number(msg->identifier.doc));
-    QTableWidgetItem * rci = new QTableWidgetItem(QString::number(msg->identifier.rci));
+    QTableWidgetItem * parameter = new QTableWidgetItem(
+                profile->fidMap[msg->identifier.srcfid].params[msg->identifier.doc].name);
+    QTableWidgetItem * rci = new QTableWidgetItem(profile->rciMap[msg->identifier.rci]);
     QTableWidgetItem * data = new QTableWidgetItem(QString::number((int)msg->data));
+    QTableWidgetItem * unit = new QTableWidgetItem(
+                profile->fidMap[msg->identifier.srcfid].params[msg->identifier.doc].unit);
+
     count = ui->receiveTable->rowCount();
     ui->receiveTable->insertRow(ui->receiveTable->rowCount());
     ui->receiveTable->setItem(count, LCC, lcc);
@@ -41,6 +44,21 @@ void ReceiveBox::displayMessage(A825_MSG* msg)
     ui->receiveTable->setItem(count, RCI, rci);
     ui->receiveTable->setItem(count, DOC, doc);
     ui->receiveTable->setItem(count, VALUE, data);
+    ui->receiveTable->setItem(count, UNIT, unit);
+    ui->receiveTable->setItem(count, PARAMETER, parameter);
+}
+
+void ReceiveBox::setColumnWidths()
+{
+    ui->receiveTable->setColumnWidth(PARAMETER, 200);
+    ui->receiveTable->setColumnWidth(FID, 180);
+    ui->receiveTable->setColumnWidth(VALUE, 180);
+    ui->receiveTable->setColumnWidth(LCC, 60);
+    ui->receiveTable->setColumnWidth(UNIT, 60);
+    ui->receiveTable->setColumnWidth(RCI, 30);
+    ui->receiveTable->setColumnWidth(FSB, 30);
+    ui->receiveTable->setColumnWidth(LCL, 30);
+    ui->receiveTable->setColumnWidth(PVT, 30);
 }
 
 void ReceiveBox::clearTable()

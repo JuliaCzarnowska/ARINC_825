@@ -1,4 +1,14 @@
 {
+	"profile_id": 1,
+	"profile_subId": 0,
+	"LRU_fid": 4,
+	
+	"rci_list": [
+		{ "number": 0, "channel": "A" },
+		{ "number": 1, "channel": "B" },
+		{ "number": 2, "channel": "C" },
+		{ "number": 3, "channel": "D" }
+	],
 	"lcc_list": [
 		{ "number": 0, "channel": "EEC" },
 		{ "number": 2, "channel": "NOC" },
@@ -14,6 +24,7 @@
 			"code": 4,
 			"params": [
 				{ "name": "Body Pitch Rate", "doc": 88, "data_type": "float", "unit": "rad/s"},
+				{ "name": "Body Pitch Angle", "doc": 112, "data_type": "float", "unit": "rad"},
 				{ "name": "Body Lateral Velocity", "doc": 152, "data_type": "float", "unit": "rad"}
 			]
 		},

@@ -18,7 +18,7 @@
 
 // function responses
 #define OK                   0
-#define SHIT                -1
+#define BLEEH               -1
 #define NO_NEW_MSG          -2
 
 // values for Ctrl Messages
@@ -27,6 +27,10 @@
 //opcodes
 #define CAN_READ            ((unsigned char)0x01)
 #define CTRL_MSG            ((unsigned char)0x02)
+
+// frame types
+#define DATA_FRAME      1
+#define REMOTE_FRAME    2
 
 typedef unsigned int CAN_ID;
 
@@ -52,12 +56,12 @@ typedef struct
     char            data[8];
     char            byte_count;
     char            frame_type;
-    unsigned short  msg_control;
+//    unsigned short  msg_control;
     A825_ID         identifier;
-    unsigned short  can_status;
-    unsigned short  error_counter;
-    unsigned int    time_stamp_hi;
-    unsigned int    time_stamp_lo;
+//    unsigned short  can_status;
+//    unsigned short  error_counter;
+//    unsigned int    time_stamp_hi;
+//    unsigned int    time_stamp_lo;
 
 } A825_MSG;
 
@@ -74,9 +78,6 @@ typedef struct
 //    unsigned int    time_stamp_lo;
 
 } CAN_MSG;
-
-static QMap<int, QString> lccMap{{2, "NOC"},
-                              {4, "NSC"}};
 
 class Socket : public QObject
 {
@@ -95,8 +96,10 @@ private:
 // function prototypes
     int readRawMessage(CAN_MSG *msg);
     int readA825Message(A825_MSG *msg);
+    void composeA825Identifier(CAN_ID canID, A825_ID *arincID);
     void decodeA825Identifier(CAN_ID canID, A825_ID *arincID);
     void sendControlMessage(unsigned char command);
+    int writeRawMessage(CAN_MSG *msg);
 signals:
     void serialConnectionState(bool success);
     void messageToDisplay(A825_MSG *msg);
@@ -106,6 +109,7 @@ public slots:
     void closeSerialPort();
     void handleReadyRead();
     void readyToReceive();
+    void writeA825Message(A825_MSG *msg);
 
 public:
     Socket();

@@ -18,6 +18,12 @@ void Profile::loadProfile()
 
 void Profile::read(const QJsonObject &json)
 {
+    QJsonArray rciArray = json["rci_list"].toArray();
+    for(int i = 0; i < rciArray.size(); ++i){
+        QJsonObject rciObject = rciArray[i].toObject();
+        rciMap.insert(rciObject["number"].toInt(),rciObject["channel"].toString());
+    }
+
     QJsonArray lccArray = json["lcc_list"].toArray();
     for(int i = 0; i < lccArray.size(); ++i){
         QJsonObject lccObject = lccArray[i].toObject();

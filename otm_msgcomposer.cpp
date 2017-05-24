@@ -6,19 +6,12 @@ OTM_MsgComposer::OTM_MsgComposer(QWidget *parent) :
     ui(new Ui::OTM_MsgComposer)
 {
     ui->setupUi(this);
-    connect(ui->sendButton, SIGNAL(clicked(bool)), this, SLOT(sendClickedHandle()));
     connect(ui->fidComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(fidChangedHandle()));
 }
 
 OTM_MsgComposer::~OTM_MsgComposer()
 {
     delete ui;
-}
-
-void OTM_MsgComposer::sendClickedHandle()
-{
-    A825_MSG *msg = new A825_MSG;
-    setArincMsg(msg);
 }
 
 void OTM_MsgComposer::fidChangedHandle()
@@ -34,7 +27,15 @@ void OTM_MsgComposer::fidChangedHandle()
 
 void OTM_MsgComposer::setArincMsg(A825_MSG* msg)
 {
-
+    msg->identifier.lcc = (unsigned char) (ui->lccComboBox->currentData().toInt());
+    msg->identifier.srcfid = (unsigned char) (ui->fidComboBox->currentData().toInt());
+    msg->identifier.fsb = (unsigned char) (ui->fsbCheckBox->isChecked());
+    msg->identifier.lcl = (unsigned char) (ui->lclCheckBox->isChecked());
+    msg->identifier.pvt = (unsigned char) (ui->pvtCheckBox->isChecked());
+    msg->identifier.doc = (unsigned char) (ui->docComboBox->currentData().toInt());
+    msg->identifier.rci = (unsigned char) (ui->rciComboBox->currentData().toInt());
+    msg->byte_count = 8;
+    msg->frame_type = CAN_READ;
 }
 
 void OTM_MsgComposer::fillParameters(Profile* prof)
@@ -48,5 +49,10 @@ void OTM_MsgComposer::fillParameters(Profile* prof)
     for(auto iter = profile->fidMap.begin(); iter != profile->fidMap.end(); iter++)
     {
         ui->fidComboBox->insertItem(iter.key(),iter.value().name, QVariant(iter.key()));
+    }
+
+    for(auto iter = profile->rciMap.begin(); iter != profile->rciMap.end(); iter++)
+    {
+        ui->rciComboBox->insertItem(iter.key(),iter.value(), QVariant(iter.key()));
     }
 }

@@ -18,15 +18,15 @@ public:
     ~OTM_MsgComposer();
 
     void fillParameters(Profile* prof);
+    void setArincMsg(A825_MSG* msg);
 
 private slots:
-    void sendClickedHandle();
     void fidChangedHandle();
 
 private:
     Ui::OTM_MsgComposer *ui;
     Profile *profile;
-    void setArincMsg(A825_MSG* msg);
+
 };
 
 #endif // OTM_MSGCOMPOSER_H

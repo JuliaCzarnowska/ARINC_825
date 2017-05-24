@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     transmitBox = new TransmitBox(this);
     profile = new Profile();
     profile->loadProfile();
+
     receiveBox->setProfile(profile);
     transmitBox->setProfile(profile);
 
@@ -34,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
             serialCfg, SLOT(setConnectionButtons(bool)));
     connect(socket, SIGNAL(messageToDisplay(A825_MSG*)),
             receiveBox, SLOT(displayMessage(A825_MSG*)));
+    connect(transmitBox, SIGNAL(messageToSend(A825_MSG*)),
+            socket, SLOT(messageToSendHandle(A825_MSG*)));
 }
 
 MainWindow::~MainWindow()

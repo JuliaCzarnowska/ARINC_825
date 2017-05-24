@@ -20,6 +20,12 @@ public:
 
     void setProfile(Profile * p);
 
+signals:
+    void messageToSend(A825_MSG* msg);
+
+private slots:
+    void sendClickedHandle();
+
 private:
     Ui::TransmitBox *ui;
     Profile* profile;

@@ -101,12 +101,12 @@ int Socket::readA825Message(A825_MSG* msg)
         for(i = 0; i < raw->byte_count; i++)
             msg->data[i] = raw->data[i];
 
-        decodeA825Identifier((CAN_ID) raw->identifier, &(msg->identifier));
+        composeA825Identifier((CAN_ID) raw->identifier, &(msg->identifier));
     }
     return resp;
 }
 
-void Socket::decodeA825Identifier(CAN_ID canID, A825_ID *arincID)
+void Socket::composeA825Identifier(CAN_ID canID, A825_ID *arincID)
 {
     arincID->lcc = (unsigned char) ((canID >> 26) & 0x7);
     arincID->srcfid = (unsigned char) ((canID >> 19) & 0x7f);
@@ -130,7 +130,6 @@ void Socket::sendControlMessage(unsigned char command)
     int resp = serial->write(data, MAX_CTRL_PKT_SIZE);
     if(resp == -1)
         qDebug() << "lipa";
-    delete ctrlMsg;
 }
 
 void Socket::handleReadyRead()
@@ -155,3 +154,33 @@ void Socket::readyToReceive()
     sendControlMessage(READY_TO_RECEIVE);
 }
 
+void Socket::writeA825Message(A825_MSG *msg)
+{
+    CAN_MSG *raw = new CAN_MSG;
+    int i;
+    for(i = 0; i < raw->byte_count; i++)
+        raw->data[i] = msg->data[i];
+
+    decodeA825Identifier((CAN_ID) raw->identifier, &(msg->identifier));
+    writeRawMessage(raw);
+}
+
+int Socket::writeRawMessage(CAN_MSG *msg)
+{
+    int resp;
+    QByteArray* canMsg = new QByteArray();
+    canMsg->append(msg->byte_count);
+    canMsg->append(msg->data, 8);
+    canMsg->append(DATA_FRAME);
+    canMsg->append(msg->identifier);
+    canMsg->append(CAN_READ);
+
+    const char * data = canMsg->data();
+    resp = serial->write(data, PKT_SIZE);
+    return resp;
+}
+
+void Socket::decodeA825Identifier(CAN_ID canID, A825_ID *arincID)
+{
+
+}

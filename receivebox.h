@@ -30,12 +30,14 @@ private:
     Profile* profile;
     int count = 0;
 
+    void setColumnWidths();
+
     enum ReceiveTableHeaders
     {
         LCC,
         FID,
-        FSB,
         DOC,
+        FSB,
         LCL,
         PVT,
         RCI,
