@@ -9,6 +9,7 @@
 #include <QObject>
 #include <QMap>
 #include <QByteArray>
+#include <QDataStream>
 
 #define RX_BUFFSIZE             30
 #define TX_BUFFSIZE             64
@@ -95,7 +96,7 @@ private:
 // function prototypes
     int readRawMessage(CAN_MSG *msg);
     int readA825Message(A825_MSG *msg);
-    void composeA825Identifier(CAN_ID canID, A825_ID *arincID);
+    CAN_ID composeA825Identifier(A825_ID *arincID);
     void decodeA825Identifier(CAN_ID canID, A825_ID *arincID);
     void sendControlMessage(unsigned char command);
     int writeRawMessage(CAN_MSG *msg);

@@ -106,8 +106,6 @@ int Socket::readA825Message(A825_MSG* msg)
     return resp;
 }
 
-
-
 void Socket::sendControlMessage(unsigned char command)
 {
     QByteArray* ctrlMsg = new QByteArray();
@@ -145,10 +143,12 @@ void Socket::writeA825Message(A825_MSG *msg)
 {
     CAN_MSG *raw = new CAN_MSG;
     int i;
+    raw->byte_count = msg->byte_count;
+    raw->frame_type = msg->frame_type;
     for(i = 0; i < raw->byte_count; i++)
         raw->data[i] = msg->data[i];
 
-    composeA825Identifier((CAN_ID) raw->identifier, &(msg->identifier));
+    raw->identifier = composeA825Identifier(&(msg->identifier));
     writeRawMessage(raw);
 }
 
@@ -156,11 +156,16 @@ int Socket::writeRawMessage(CAN_MSG *msg)
 {
     int resp;
     QByteArray* canMsg = new QByteArray();
+    // int -> QByteArray
+    QByteArray id;
+    QDataStream stream(&id, QIODevice::WriteOnly);
+    stream <<msg->identifier;
+
     canMsg->append(CAN_READ);
-    canMsg->append((unsigned char)msg->byte_count);
+    canMsg->append(msg->byte_count);
     canMsg->append(QByteArray(msg->data, 8));
     canMsg->append(DATA_FRAME);
-    canMsg->append(QByteArray(msg->identifier, 4));
+    canMsg->append(id);
 
 
     const char * data = canMsg->data();
@@ -169,9 +174,10 @@ int Socket::writeRawMessage(CAN_MSG *msg)
     return resp;
 }
 
-void Socket::composeA825Identifier(CAN_ID canID, A825_ID *arincID)
+CAN_ID Socket::composeA825Identifier(A825_ID *arincID)
 {
     unsigned int id[8];
+    CAN_ID canID;
 
     id[0] = (unsigned int) ((arincID->lcc << 26) & 0x1c000000);
     id[3] = (unsigned int) ((arincID->lcl << 17) & 0x00020000);
@@ -192,7 +198,7 @@ void Socket::composeA825Identifier(CAN_ID canID, A825_ID *arincID)
         id[6] = (unsigned int) (arincID->rci & 0x00000003);
         id[7] = 0;
     }
-    canID = id[0]|id[1]|id[2]|id[3]|id[4]|id[5]|id[6]|id[7];
+    return canID = id[0]|id[1]|id[2]|id[3]|id[4]|id[5]|id[6]|id[7];
 
 }
 
