@@ -4,16 +4,16 @@ Profile::Profile()
 {
 }
 
-void Profile::loadProfile()
+void Profile::loadProfile(QString fileName)
 {
-    QFile loadFile("C:/Users/Julia/Documents/ARINC_825/profile.json");
+    QFile loadFile(fileName);
     if (!loadFile.open(QIODevice::ReadOnly)) {
         qWarning("Couldn't open save file.");
     }
     QByteArray saveData = loadFile.readAll();
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
-    QJsonObject asd = loadDoc.object();
     read(loadDoc.object());
+    emit profileChanged();
 }
 
 void Profile::read(const QJsonObject &json)

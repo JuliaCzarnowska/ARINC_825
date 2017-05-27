@@ -12,6 +12,7 @@ ReceiveBox::ReceiveBox(QWidget *parent) :
     setColumnWidths();
     ui->receiveTable->horizontalHeader()->sectionResizeMode(QHeaderView::Stretch);
     connect(ui->clearButton, SIGNAL(clicked(bool)), this, SLOT(clearTable()));
+    connect(ui->saveButton, SIGNAL(clicked(bool)), this, SLOT(saveTable()));
 }
 
 ReceiveBox::~ReceiveBox()
@@ -68,6 +69,11 @@ void ReceiveBox::clearTable()
     {
         ui->receiveTable->removeRow(0);
     }
+}
+
+void ReceiveBox::saveTable()
+{
+
 }
 
 void ReceiveBox::setProfile(Profile *p)

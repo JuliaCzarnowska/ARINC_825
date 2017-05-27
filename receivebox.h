@@ -23,7 +23,9 @@ public:
 
 public slots:
     void displayMessage(A825_MSG* msg);
+private slots:
     void clearTable();
+    void saveTable();
 
 private:
     Ui::ReceiveBox *ui;

@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QJsonArray>
 #include <QDebug>
+#include <QObject>
 
 struct Parameter{
     QString name;
@@ -41,8 +42,10 @@ struct FidObject{
     }
 };
 
-class Profile
+class Profile : public QObject
 {
+    Q_OBJECT
+
 public:
     Profile();
 
@@ -55,9 +58,12 @@ public:
     QMap<unsigned int, QString> lccMap;
     QMap<unsigned int, FidObject> fidMap;
 
-    void loadProfile();
     void read(const QJsonObject &json);
     void write(QJsonObject &json) const;
+public slots:
+    void loadProfile(QString fileName);
+signals:
+    void profileChanged();
 };
 
 #endif // PROFILE_H

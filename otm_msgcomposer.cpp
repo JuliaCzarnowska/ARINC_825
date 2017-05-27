@@ -1,10 +1,11 @@
 #include "otm_msgcomposer.h"
 #include "ui_otm_msgcomposer.h"
 
-OTM_MsgComposer::OTM_MsgComposer(QWidget *parent) :
+OTM_MsgComposer::OTM_MsgComposer(QWidget *parent, Profile *prof) :
     QWidget(parent),
     ui(new Ui::OTM_MsgComposer)
 {
+    profile = prof;
     ui->setupUi(this);
     connect(ui->fidComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(fidChangedHandle()));
 }
@@ -38,19 +39,19 @@ void OTM_MsgComposer::setArincMsg(A825_MSG* msg)
     msg->frame_type = CAN_READ;
 }
 
-void OTM_MsgComposer::fillParameters(Profile* prof)
+void OTM_MsgComposer::fillParameters()
 {
-    profile = prof;
+    ui->lccComboBox->clear();
     for(auto iter = profile->lccMap.begin(); iter != profile->lccMap.end(); iter++)
     {
         ui->lccComboBox->insertItem(iter.key(),iter.value(), QVariant(iter.key()));
     }
-
+    ui->fidComboBox->clear();
     for(auto iter = profile->fidMap.begin(); iter != profile->fidMap.end(); iter++)
     {
         ui->fidComboBox->insertItem(iter.key(),iter.value().name, QVariant(iter.key()));
     }
-
+    ui->rciComboBox->clear();
     for(auto iter = profile->rciMap.begin(); iter != profile->rciMap.end(); iter++)
     {
         ui->rciComboBox->insertItem(iter.key(),iter.value(), QVariant(iter.key()));

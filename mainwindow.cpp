@@ -10,24 +10,30 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle("ARINC 825 Communicator");
 
     socket = new Socket();
+    profile = new Profile();
+
     //creating widgets
     serialCfg = new SerialConfigBox(this);
     receiveBox = new ReceiveBox(this);
-    transmitBox = new TransmitBox(this);
-    profile = new Profile();
-    profile->loadProfile();
+    transmitBox = new TransmitBox(this, profile);
+    arincCfg = new A825ConfigBox(this);
 
     receiveBox->setProfile(profile);
-    transmitBox->setProfile(profile);
 
-    //building ui
-    QGridLayout *mainLayout = new QGridLayout;
-    ui->centralWidget->setLayout(mainLayout);
-    mainLayout->setSpacing(10);
-    mainLayout->addWidget(serialCfg,0,0,-1,1);
-    mainLayout->addWidget(receiveBox, 1, 1, 1,-1);
-    mainLayout->addWidget(transmitBox, 0, 1, 1, -1);
+    organizeUI();
+    establishConnections();
+}
 
+MainWindow::~MainWindow()
+{
+    delete socket;
+    delete serialCfg;
+    delete receiveBox;
+    delete ui;
+}
+
+void MainWindow::establishConnections()
+{
     connect(serialCfg, SIGNAL(applySerial(SerialConfigBox::SerialSettings)),
             socket, SLOT(openSerialPort(SerialConfigBox::SerialSettings)));
     connect(serialCfg, SIGNAL(closeSerialSignal()), socket, SLOT(closeSerialPort()));
@@ -37,12 +43,22 @@ MainWindow::MainWindow(QWidget *parent) :
             receiveBox, SLOT(displayMessage(A825_MSG*)));
     connect(transmitBox, SIGNAL(messageToSend(A825_MSG*)),
             socket, SLOT(writeA825Message(A825_MSG*)));
+    connect(arincCfg, SIGNAL(newProfileChoice(QString)), profile, SLOT(loadProfile(QString)));
+    connect(profile, SIGNAL(profileChanged()), transmitBox->comp1, SLOT(fillParameters()));
+    connect(profile, SIGNAL(profileChanged()), transmitBox->comp2, SLOT(fillParameters()));
 }
 
-MainWindow::~MainWindow()
+void MainWindow::organizeUI()
 {
-    delete socket;
-    delete serialCfg;
-    delete receiveBox;
-    delete ui;
+    QGridLayout *mainLayout = new QGridLayout;
+    QVBoxLayout *configurationLayout = new QVBoxLayout;
+    QVBoxLayout *communicationLayout = new QVBoxLayout;
+    ui->centralWidget->setLayout(mainLayout);
+    mainLayout->addLayout(configurationLayout, 0, 0, 1, 1);
+    mainLayout->addLayout(communicationLayout, 0, 1, 1, 1);
+
+    configurationLayout->addWidget(serialCfg);
+    configurationLayout->addWidget(arincCfg);
+    communicationLayout->addWidget(transmitBox);
+    communicationLayout->addWidget(receiveBox);
 }

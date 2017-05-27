@@ -111,6 +111,7 @@ void Socket::sendControlMessage(unsigned char command)
     QByteArray* ctrlMsg = new QByteArray();
     ctrlMsg->append(CTRL_MSG);
     ctrlMsg->append(command);
+    ctrlMsg->append(QByteArray(13, 0));
     const char * data = ctrlMsg->data();
     int resp = serial->write(data, MAX_CTRL_PKT_SIZE);
     if(resp == -1)

@@ -5,6 +5,7 @@
 #include <otm_msgcomposer.h>
 #include <ptp_msgcomposer.h>
 #include <profile.h>
+#include <QPushButton>
 
 namespace Ui {
 class TransmitBox;
@@ -15,8 +16,10 @@ class TransmitBox : public QWidget
     Q_OBJECT
 
 public:
-    explicit TransmitBox(QWidget *parent = 0);
+    explicit TransmitBox(QWidget *parent = 0, Profile* prof = nullptr);
     ~TransmitBox();
+    OTM_MsgComposer* comp1;
+    PTP_MsgComposer* comp2;
 
     void setProfile(Profile * p);
 
@@ -29,8 +32,7 @@ private slots:
 private:
     Ui::TransmitBox *ui;
     Profile* profile;
-    OTM_MsgComposer* comp1;
-    PTP_MsgComposer* comp2;
+
 };
 
 #endif // TRANSMITBOX_H

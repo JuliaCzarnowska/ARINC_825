@@ -7,6 +7,7 @@
 #include <transmitbox.h>
 #include <socket.h>
 #include <profile.h>
+#include <a825configbox.h>
 
 namespace Ui {
 class MainWindow;
@@ -29,7 +30,11 @@ private:
     SerialConfigBox *serialCfg;
     ReceiveBox *receiveBox;
     TransmitBox *transmitBox;
+    A825ConfigBox *arincCfg;
     Profile *profile;
+
+    void establishConnections();
+    void organizeUI();
 };
 
 #endif // MAINWINDOW_H

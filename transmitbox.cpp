@@ -1,28 +1,23 @@
 #include "transmitbox.h"
 #include "ui_transmitbox.h"
 
-TransmitBox::TransmitBox(QWidget *parent) :
+TransmitBox::TransmitBox(QWidget *parent, Profile *prof) :
     QWidget(parent),
     ui(new Ui::TransmitBox)
 {
     ui->setupUi(this);
-    comp1 = new OTM_MsgComposer(this);
-    comp2 = new PTP_MsgComposer(this);
-    ui->otmLayout->addWidget(comp1, Qt::AlignLeft);
-    ui->transmitLayout->addWidget(comp2);
+    profile = prof;
+    comp1 = new OTM_MsgComposer(this, profile);
+    comp2 = new PTP_MsgComposer(this, profile);
+    ui->otmLayout->insertWidget(0, comp1);
+    ui->ptpLayout->insertWidget(0, comp2);
 
-    connect(ui->sendButton, SIGNAL(clicked(bool)), this, SLOT(sendClickedHandle()));
+    connect(ui->sendOtmButton, SIGNAL(clicked(bool)), this, SLOT(sendClickedHandle()));
 }
 
 TransmitBox::~TransmitBox()
 {
     delete ui;
-}
-
-void TransmitBox::setProfile(Profile *p)
-{
-    profile = p;
-    comp1->fillParameters(p);
 }
 
 void TransmitBox::sendClickedHandle()

@@ -1,6 +1,22 @@
 #ifndef A825_H
 #define A825_H
 
+// Interface Configuration defines
+
+//  Baudrates
+#define BAUD_1M      0   // 1 Mbit/s
+#define BAUD_500K    1   // 500 kbit/s
+#define BAUD_250K    2   // 250 kbit/s
+#define BAUD_125K    3   // 125 kbit/s
+#define BAUD_83K     4   // 83,333 kbit/s
+
+//  Modes
+#define NORMAL_MODE             0
+#define LOOPBACK_MODE           1
+#define SILENT_MODE             2
+#define SILENT_LOOPBACK_MODE    3
+
+
 // ARINC825 Logical Communication Channels definitions
 
 #define EEC 0 // Exception Event Channel

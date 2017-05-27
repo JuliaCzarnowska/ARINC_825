@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     socket.cpp \
     profile.cpp \
     otm_msgcomposer.cpp \
-    ptp_msgcomposer.cpp
+    ptp_msgcomposer.cpp \
+    a825configbox.cpp
 
 HEADERS  += mainwindow.h \
     a825.h \
@@ -42,14 +43,16 @@ HEADERS  += mainwindow.h \
     socket.h \
     profile.h \
     otm_msgcomposer.h \
-    ptp_msgcomposer.h
+    ptp_msgcomposer.h \
+    a825configbox.h
 
 FORMS    += mainwindow.ui \
     serialconfigbox.ui \
     receivebox.ui \
     transmitbox.ui \
     otm_msgcomposer.ui \
-    ptp_msgcomposer.ui
+    ptp_msgcomposer.ui \
+    a825configbox.ui
 
 DISTFILES += \
     profile.json
