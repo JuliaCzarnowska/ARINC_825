@@ -10,6 +10,7 @@
 #include <QMap>
 #include <QByteArray>
 #include <QDataStream>
+#include <QMessageBox>
 
 #define RX_BUFFSIZE             30
 #define TX_BUFFSIZE             64
@@ -100,6 +101,8 @@ private:
     void decodeA825Identifier(CAN_ID canID, A825_ID *arincID);
     void sendControlMessage(unsigned char command);
     int writeRawMessage(CAN_MSG *msg);
+    int filterMessage(A825_MSG *msg);
+
 signals:
     void serialConnectionState(bool success);
     void messageToDisplay(A825_MSG *msg);

@@ -23,7 +23,7 @@ void PTP_MsgComposer::setArincMsg(A825_MSG* msg)
     msg->identifier.pvt = (unsigned char) (ui->pvtCheckBox->isChecked());
     msg->identifier.sfid = (unsigned char) (ui->srvFidComboBox->currentData().toInt());
     msg->identifier.rci = (unsigned char) (ui->rciComboBox->currentData().toInt());
-    msg->identifier.sid = (unsigned char) (ui->srvIdComboBox->currentData().toInt());
+    msg->identifier.sid = (unsigned char) (ui->spinBox->value());
     msg->byte_count = 8;
     msg->frame_type = CAN_READ;
 }

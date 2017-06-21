@@ -34,6 +34,9 @@ void Socket::openSerialPort(SerialConfigBox::SerialSettings settings)
         readyToReceive();
     }else{
         emit serialConnectionState(false);
+        QMessageBox failedConnection;
+        failedConnection.setInformativeText("Connection with device failed");
+        failedConnection.exec();
     }
 }
 
@@ -53,16 +56,16 @@ int Socket::readRawMessage(CAN_MSG *msg)
     while(serialBuffer.size() >= PKT_SIZE)
     {
         CAN_MSG* tmpMsg = new CAN_MSG;
-        count = serialBuffer[0];
+        count = serialBuffer[1];
         tmpMsg->byte_count = count;
         for(int i = 0; i < count; i++){
-            tmpMsg->data[i] = serialBuffer[i+1];
+            tmpMsg->data[i] = serialBuffer[i+2];
         }
-        tmpMsg->frame_type = serialBuffer[1+count];
-        id[0] = (unsigned int) ((serialBuffer[2+count] << 24) & 0x1F000000);
-        id[1] = (unsigned int) ((serialBuffer[3+count] << 16) & 0xFF0000);
-        id[2] = (unsigned int) ((serialBuffer[4+count] << 8) & 0xFF00);
-        id[3] = (unsigned int) (serialBuffer[5+count] & 0xFF);
+        tmpMsg->frame_type = serialBuffer[2+count];
+        id[0] = (unsigned int) ((serialBuffer[3+count] << 24) & 0x1F000000);
+        id[1] = (unsigned int) ((serialBuffer[4+count] << 16) & 0xFF0000);
+        id[2] = (unsigned int) ((serialBuffer[5+count] << 8) & 0xFF00);
+        id[3] = (unsigned int) (serialBuffer[6+count] & 0xFF);
         tmpMsg->identifier = id[0]|id[1]|id[2]|id[3];
         //TODO check if its a proper message
         serialBuffer.remove(0,15);
@@ -129,7 +132,8 @@ void Socket::handleReadyRead()
         while(resp != NO_NEW_MSG)
         {
             qDebug() << "nowa wiadomość!!";
-            emit messageToDisplay(msg);
+            if(!filterMessage(msg))
+                emit messageToDisplay(msg);
             resp = readA825Message(msg);
         }
     }
@@ -173,6 +177,17 @@ int Socket::writeRawMessage(CAN_MSG *msg)
     resp = serial->write(data, PKT_SIZE);
     qDebug() << resp;
     return resp;
+}
+
+int Socket::filterMessage(A825_MSG *msg)
+{
+    int resp;
+    if(msg->identifier.lcc == NSC || msg->identifier.lcc == TMC){
+
+    }else{
+
+    }
+    return OK;
 }
 
 CAN_ID Socket::composeA825Identifier(A825_ID *arincID)

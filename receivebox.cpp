@@ -12,7 +12,7 @@ ReceiveBox::ReceiveBox(QWidget *parent) :
     setColumnWidths();
     ui->receiveTable->horizontalHeader()->sectionResizeMode(QHeaderView::Stretch);
     connect(ui->clearButton, SIGNAL(clicked(bool)), this, SLOT(clearTable()));
-    connect(ui->saveButton, SIGNAL(clicked(bool)), this, SLOT(saveTable()));
+//    connect(ui->saveButton, SIGNAL(clicked(bool)), this, SLOT(saveTable()));
 }
 
 ReceiveBox::~ReceiveBox()
@@ -22,6 +22,9 @@ ReceiveBox::~ReceiveBox()
 
 void ReceiveBox::displayMessage(A825_MSG* msg)
 {
+    QByteArray asd = QByteArray(msg->data);
+    float asd_f = asd.toFloat();
+
     QTableWidgetItem * lcc = new QTableWidgetItem(profile->lccMap[msg->identifier.lcc]);
     QTableWidgetItem * fid = new QTableWidgetItem(profile->fidMap[msg->identifier.srcfid].name);
     QTableWidgetItem * fsb = new QTableWidgetItem(QString::number(msg->identifier.fsb));
@@ -31,7 +34,18 @@ void ReceiveBox::displayMessage(A825_MSG* msg)
     QTableWidgetItem * parameter = new QTableWidgetItem(
                 profile->fidMap[msg->identifier.srcfid].params[msg->identifier.doc].name);
     QTableWidgetItem * rci = new QTableWidgetItem(profile->rciMap[msg->identifier.rci]);
-    QTableWidgetItem * data = new QTableWidgetItem(QString::number((int)msg->data));
+//    QTableWidgetItem * data = new QTableWidgetItem(QString::number(asd_f));
+    QStringList list;
+    list.append("352.274532");
+    list.append("0.139626");
+    list.append("333.1522");
+    list.append("295.5196");
+    list.append("295.5321");
+    list.append("25.7843");
+    list.append("0.104721");
+//    QTableWidgetItem * data = new QTableWidgetItem(list.at(i));
+//    i++;
+    QTableWidgetItem * data = new QTableWidgetItem(QString(msg->data));
     QTableWidgetItem * unit = new QTableWidgetItem(
                 profile->fidMap[msg->identifier.srcfid].params[msg->identifier.doc].unit);
 

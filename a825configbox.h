@@ -24,6 +24,8 @@ private slots:
 private:
     Ui::A825ConfigBox *ui;
 
+    void fillParameters();
+
 signals:
     void newProfileChoice(QString fileName);
 };

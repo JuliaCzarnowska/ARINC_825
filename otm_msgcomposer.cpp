@@ -36,6 +36,14 @@ void OTM_MsgComposer::setArincMsg(A825_MSG* msg)
     msg->identifier.doc = (unsigned char) (ui->docComboBox->currentData().toInt());
     msg->identifier.rci = (unsigned char) (ui->rciComboBox->currentData().toInt());
     msg->byte_count = 8;
+    QString data1 = ui->dataLineEdit->text();
+    data1.size();
+    QByteArray ba = data1.toLatin1();
+    for(int i =0; i < 8; i++)
+    {
+        msg->data[i] = ba[i];
+    }
+
     msg->frame_type = CAN_READ;
 }
 

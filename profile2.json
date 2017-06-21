@@ -23,10 +23,10 @@
 		"name": "Flight State",
 		"code": 4,
 		"params": [
-			{ "name": "Body Longitudinal Acceleration", "doc": 64, "data_type": "float", "unit": "m/s^2"},
+			{ "name": "Body Lateral Velocity", "doc": 64, "data_type": "float", "unit": "rad"},
 			{ "name": "Body Pitch Rate", "doc": 88, "data_type": "float", "unit": "rad/s"},
 			{ "name": "Body Pitch Angle", "doc": 112, "data_type": "float", "unit": "rad"},
-			{ "name": "Body Lateral Velocity", "doc": 152, "data_type": "float", "unit": "rad"}
+			{ "name": "Body Longitudinal Acceleration", "doc": 64, "data_type": "float", "unit": "m/s^2"}
 		]
 	},
 	{

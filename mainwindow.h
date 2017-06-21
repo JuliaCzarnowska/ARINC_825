@@ -22,9 +22,6 @@ public:
     ~MainWindow();
 
 private:
-    A825_MSG* rcvMessage;
-    A825_MSG* traMessage;
-
     Ui::MainWindow *ui;
     Socket *socket;
     SerialConfigBox *serialCfg;

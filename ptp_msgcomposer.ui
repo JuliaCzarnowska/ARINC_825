@@ -413,26 +413,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="srvIdComboBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>50</width>
-           <height>16777215</height>
-          </size>
-         </property>
-        </widget>
+        <widget class="QSpinBox" name="spinBox"/>
        </item>
       </layout>
      </item>

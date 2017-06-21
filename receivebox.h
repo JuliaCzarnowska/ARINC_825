@@ -31,7 +31,7 @@ private:
     Ui::ReceiveBox *ui;
     Profile* profile;
     int count = 0;
-
+    int i=0;
     void setColumnWidths();
 
     enum ReceiveTableHeaders
