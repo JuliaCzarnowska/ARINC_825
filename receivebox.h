@@ -47,7 +47,6 @@ private:
         VALUE,
         UNIT
     };
-
 };
 
 #endif // RECEIVEBOX_H

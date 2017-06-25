@@ -102,6 +102,7 @@ private:
     void sendControlMessage(unsigned char command);
     int writeRawMessage(CAN_MSG *msg);
     int filterMessage(A825_MSG *msg);
+    void sendResponse(A825_MSG *msg);
 
 signals:
     void serialConnectionState(bool success);

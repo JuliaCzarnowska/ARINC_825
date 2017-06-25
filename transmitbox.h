@@ -28,6 +28,7 @@ signals:
 
 private slots:
     void sendClickedHandle();
+    void sendPTPClickedHandle();
 
 private:
     Ui::TransmitBox *ui;

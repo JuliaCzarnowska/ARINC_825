@@ -52,7 +52,8 @@ void OTM_MsgComposer::fillParameters()
     ui->lccComboBox->clear();
     for(auto iter = profile->lccMap.begin(); iter != profile->lccMap.end(); iter++)
     {
-        ui->lccComboBox->insertItem(iter.key(),iter.value(), QVariant(iter.key()));
+        if(iter.key() != 4 && iter.key() != 6 && iter.key() != 7)
+            ui->lccComboBox->insertItem(iter.key(),iter.value(), QVariant(iter.key()));
     }
     ui->fidComboBox->clear();
     for(auto iter = profile->fidMap.begin(); iter != profile->fidMap.end(); iter++)

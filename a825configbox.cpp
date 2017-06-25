@@ -43,7 +43,7 @@ void A825ConfigBox::initializeButtonClicked()
     if(ui->textBrowser->isVisible())
     {
         ui->modeLabel->clear();
-        ui->bitRateLabel->clear();
+        ui->bitRateLabel_2->clear();
         ui->statusLabel->clear();
 
         ui->statusLabel->setText(tr("Status: %1").arg("ON"));

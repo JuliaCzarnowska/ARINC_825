@@ -132,7 +132,7 @@ void Socket::handleReadyRead()
         while(resp != NO_NEW_MSG)
         {
             qDebug() << "nowa wiadomość!!";
-            if(!filterMessage(msg))
+            if(filterMessage(msg)==OK)
                 emit messageToDisplay(msg);
             resp = readA825Message(msg);
         }
@@ -181,13 +181,14 @@ int Socket::writeRawMessage(CAN_MSG *msg)
 
 int Socket::filterMessage(A825_MSG *msg)
 {
-    int resp;
+    int resp = OK;
     if(msg->identifier.lcc == NSC || msg->identifier.lcc == TMC){
-
+        if(msg->identifier.sid != 1 || msg->identifier.sfid != 4)
+            resp =   BLEEH;
     }else{
 
     }
-    return OK;
+    return resp;
 }
 
 CAN_ID Socket::composeA825Identifier(A825_ID *arincID)

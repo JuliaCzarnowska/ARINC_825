@@ -13,6 +13,7 @@ TransmitBox::TransmitBox(QWidget *parent, Profile *prof) :
     ui->ptpLayout->insertWidget(0, comp2);
 
     connect(ui->sendOtmButton, SIGNAL(clicked(bool)), this, SLOT(sendClickedHandle()));
+    connect(ui->sendPtpButton, SIGNAL(clicked(bool)), this, SLOT(sendPTPClickedHandle()));
 }
 
 TransmitBox::~TransmitBox()
@@ -24,5 +25,12 @@ void TransmitBox::sendClickedHandle()
 {
     A825_MSG *msg = new A825_MSG;
     comp1->setArincMsg(msg);
+    emit messageToSend(msg);
+}
+
+void TransmitBox::sendPTPClickedHandle()
+{
+    A825_MSG *msg = new A825_MSG;
+    comp2->setArincMsg(msg);
     emit messageToSend(msg);
 }
